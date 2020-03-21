@@ -70,13 +70,33 @@ func TestRandomPalindrome(t *testing.T) {
 	}
 }
 
-func TestRandomNonPalindrome(t *testing.T) {
-	seed := time.Now().UTC().UnixNano()
-	rng := rand.New(rand.NewSource(seed))
-	for i := 0; i < 1000; i++ {
-		np := randomNonPalindrome(rng)
-		if IsPalindrome(np) {
-			t.Errorf("IsPalindrome(%q) = true", np)
-		}
+// func TestRandomNonPalindrome(t *testing.T) {
+// 	seed := time.Now().UTC().UnixNano()
+// 	rng := rand.New(rand.NewSource(seed))
+// 	for i := 0; i < 1000; i++ {
+// 		np := randomNonPalindrome(rng)
+// 		if IsPalindrome(np) {
+// 			t.Errorf("IsPalindrome(%q) = true", np)
+// 		}
+// 	}
+// }
+
+func BenchmarkIsPalindrome(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		IsPalindrome("A man, a plan, a canal: Panama")
 	}
+}
+
+func benchmark(b *testing.B, size int) {
+	for i := 0; i < size; i++ {
+		IsPalindrome("A man, a plan, a canal: Panama")
+	}
+}
+
+func Benchmark100(b *testing.B) {
+	benchmark(b, 100)
+}
+
+func Benchmark10000(b *testing.B)  {
+	benchmark(b, 10000)
 }
